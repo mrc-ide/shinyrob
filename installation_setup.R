@@ -1,0 +1,25 @@
+install.packages(c("shiny",
+                   "ckanr",
+                   "shinyjs",
+                   "dplyr",
+                   "forcats",
+                   "ggplot2",
+                   "scales",
+                   "sf",
+                   "naomi",
+                   "lemon",
+                   "stringr",
+                   "jsonlite",
+                   "httr",
+                   "hintr",
+                   "lubridate")
+                 )
+
+devtools::install_github("mrc-ide/naomi")
+devtools::install_github("mrc-ide/hintr")
+devtools::install_github("mrc-ide/heartbeatr")
+devtools::install_github("mrc-ide/rrq")
+devtools::install_github("reside-ic/porcelain")
+devtools::install_github("mrc-ide/eppasm")
+devtools::install_github("reside-ic/traduire")
+devtools::install_github("mrc-ide/specio")

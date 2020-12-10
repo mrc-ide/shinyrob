@@ -40,7 +40,7 @@ geo_validation <- function(dat, options, source_files, input, output) {
   
 }
 
-art_validation <- function(dat, options, source_files, input, output, dhis = FALSE) {
+art_validation <- function(dat, options, source_files, last_modified, input, output, dhis = FALSE) {
 
 
   if(dhis) {
@@ -108,6 +108,10 @@ art_validation <- function(dat, options, source_files, input, output, dhis = FAL
           x_axis_variable = year
         )
       
+      shinyjs::show("art_report")
+      shinyjs::show("art_report2")
+      shinyjs::show("art_report3")
+      
       
      # art_text <- "<b>Valid</b><br>"
     }
@@ -124,13 +128,17 @@ art_validation <- function(dat, options, source_files, input, output, dhis = FAL
     }
   })
   
+  last_modified$art <- reactive({
+    ymd_hms(art_choice$last_modified)
+  })
+  
   output$art_version <- renderUI({
-    HTML(paste("<br>Last modified:", ymd_hms(art_choice$last_modified), "<br><br>"))
+    HTML(paste("<br>Last modified:", last_modified$art(), "<br><br>"))
   })
   
 }
 
-anc_validation <- function(dat, options, source_files, input, output, dhis = FALSE) {
+anc_validation <- function(dat, options, source_files, last_modified, input, output, dhis = FALSE) {
   
   if(dhis) {
     anc_choice <- options$full_anc %>%
@@ -176,7 +184,10 @@ anc_validation <- function(dat, options, source_files, input, output, dhis = FAL
         anc_art_coverage = anc_already_art / anc_total_pos
       )
     
-    "<b>Valid</b>"
+    shinyjs::show("anc_report")
+    shinyjs::show("anc_report2")
+    shinyjs::show("anc_report3")
+    shinyjs::show("anc_report4")
   }
   
   output$anc_check <- renderUI({
@@ -187,8 +198,12 @@ anc_validation <- function(dat, options, source_files, input, output, dhis = FAL
     }
   })
   
+  last_modified$anc <- reactive({
+    ymd_hms(anc_choice$last_modified)
+  })
+  
   output$anc_version <- renderUI({
-    HTML(paste("<br>Last modified:", ymd_hms(anc_choice$last_modified), "<br><br>"))
+    HTML(paste("<br>Last modified:", last_modified$anc(), "<br><br>"))
   })
   
 }

@@ -12,8 +12,8 @@ introduction <- function() {
       column(1, style="margin-top:25px", disabled(actionButton(inputId = "api_button", label = "Submit"))),
       column(2, style="margin-top:25px", actionButton(inputId = "adr_button", label = "Get ADR key", icon = icon("external-link"), onclick ="window.open('https://adr.unaids.org/me', '_blank')"))
     ),
-    hidden(
-      div(id="wait",
+    shinyjs::hidden(
+      div(id="wait_pull",
           p("Please wait - fetching data from ADR...")
           )
     ),

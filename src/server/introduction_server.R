@@ -4,13 +4,14 @@ introduction_server <- function(input, output, session) {
   options <- reactiveValues()
   dat <<- reactiveValues()
   source_files <- reactiveValues()
+  last_modified <<- reactiveValues()
   
   observeEvent(input$api_key,{
     toggleState("api_button", str_length(input$api_key) == 36)
   })
   
   observeEvent(input$api_button, {
-    shinyjs::show("wait")
+    shinyjs::show("wait_pull")
     disable("api_button")
     
   })
@@ -32,7 +33,7 @@ introduction_server <- function(input, output, session) {
     # update_options(art_choice, "art_package", session)
     # update_options(anc_choice, "anc_package", session)
 
-    shinyjs::hide("wait")
+    shinyjs::hide("wait_pull")
     
   })
 
@@ -135,7 +136,7 @@ introduction_server <- function(input, output, session) {
     
     if(filter(options$full_art, title == split_title(input$art_package)[1], organisation == split_title(input$art_package)[2])$source == "inputs-unaids-estimates") {
       
-      art_validation(dat, options, source_files, input, output)
+      art_validation(dat, options, source_files, last_modified, input, output)
       
     } else {
       
@@ -173,7 +174,7 @@ introduction_server <- function(input, output, session) {
     
     if(filter(options$full_anc, title == split_title(input$anc_package)[1], organisation == split_title(input$anc_package)[2])$source == "inputs-unaids-estimates") {
       
-      anc_validation(dat, options, source_files, input, output)
+      anc_validation(dat, options, source_files, last_modified, input, output)
       
       
     } else {

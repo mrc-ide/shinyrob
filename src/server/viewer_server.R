@@ -1,14 +1,6 @@
 viewer_server <- function(input, output, session) {
   
-  plot_height <- reactive({
-    
-    # shiny::validate(
-    #   need(dat$art_plot | dat$anc_plot, "No data available")
-    # )
-    
-    250*ceiling(length(unique(dat$art$area_id))/5)
-    
-  })
+  plot_height <- reactive(250*ceiling(length(unique(dat$art$area_id))/5))
 
   output$art_count_threshold <- renderText({ input$art_count_threshold })
 
@@ -49,35 +41,35 @@ viewer_server <- function(input, output, session) {
     shiny::validate(
       need(dat$art_plot, "No ART data available")
     )
-  
-  threshold <- input$art_count_threshold/100
-  
-  dat$art_plot %>%
-    group_by(area_label) %>%
-    mutate(x_axis_variable_next = lead(x_axis_variable), art_adult_next = lead(art_adult)) %>%
-    select(area_label, x_axis_variable, art_adult, x_axis_variable_next, art_adult_next) %>%
-    mutate(art_diff = art_adult_next/art_adult,
-           colour_line =
-             ifelse(
-               (art_diff >= (1 + threshold) | art_diff <= (1 - threshold)) & art_adult >= 100,
-               1, 0),
-           colour_line = ifelse(is.infinite(art_diff) | art_diff > 200, 1, colour_line),
-           colour_line = factor(colour_line)
-    )  %>%
-    ggplot() +
-    geom_segment(aes(x=as.numeric(x_axis_variable), xend = as.numeric(x_axis_variable_next), y = art_adult, yend = art_adult_next, colour = colour_line), size=1.3, show.legend = FALSE) +
-    geom_point(aes(x=as.numeric(x_axis_variable), y=art_adult), size=2) +
-    scale_colour_manual(values=c("0" = "black", "1" = "red")) +
-    facet_rep_wrap(~area_label, ncol = input$facet_number, scales = "free_y", repeat.tick.labels = c("left", "bottom")) +
-    scale_y_continuous(labels = scales::label_number()) +
-    scale_x_continuous(breaks = as.numeric(unique(dat$art_plot$x_axis_variable)), labels = as.character(unique(dat$art_plot$x_axis_variable)))+
-    expand_limits(y = 0) +
-    theme_minimal() +
-    labs(title = "Total receiving ART", x = element_blank(), y = element_blank()) +
-    theme(strip.text = element_text(face = "bold", size=13),
-          plot.title = element_text(size=16),
-          axis.text = element_text(size = 12)
-    )
+
+    threshold <- input$art_count_threshold/100
+    
+    dat$art_plot %>%
+      group_by(area_label) %>%
+      mutate(x_axis_variable_next = lead(x_axis_variable), art_adult_next = lead(art_adult)) %>%
+      select(area_label, x_axis_variable, art_adult, x_axis_variable_next, art_adult_next) %>%
+      mutate(art_diff = art_adult_next/art_adult,
+             colour_line = 
+               ifelse(
+                 (art_diff >= (1 + threshold) | art_diff <= (1 - threshold)) & art_adult >= 100,
+                 1, 0),
+             colour_line = ifelse(is.infinite(art_diff) | art_diff > 200, 1, colour_line),
+             colour_line = factor(colour_line)
+      )  %>%
+      ggplot() +
+      geom_segment(aes(x=as.numeric(x_axis_variable), xend = as.numeric(x_axis_variable_next), y = art_adult, yend = art_adult_next, colour = colour_line), size=1.3, show.legend = FALSE) +
+      geom_point(aes(x=as.numeric(x_axis_variable), y=art_adult), size=2) +
+      scale_colour_manual(values=c("0" = "black", "1" = "red")) +
+      facet_rep_wrap(~area_label, ncol = input$facet_number, scales = "free_y", repeat.tick.labels = c("left", "bottom")) +
+      scale_y_continuous(labels = scales::label_number()) +
+      scale_x_continuous(breaks = as.numeric(unique(dat$art_plot$x_axis_variable)), labels = as.character(unique(dat$art_plot$x_axis_variable)))+
+      expand_limits(y = 0) +
+      theme_minimal() +
+      labs(title = "Total receiving ART", x = element_blank(), y = element_blank()) +
+      theme(strip.text = element_text(face = "bold", size=13),
+            plot.title = element_text(size=16),
+            axis.text = element_text(size = 12)
+      )
 
   }, height = plot_height
   )

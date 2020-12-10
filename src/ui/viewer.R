@@ -38,35 +38,15 @@ viewer <- function() {
                             )
                  ),
                  p("Year-on-year changes in the number of adults on ART greater than ", tags$strong("+/-", textOutput("art_count_threshold", inline=TRUE), "%"), " will be highlighted in red. Warnings will not be generated for districts with fewer than 100 people on ART."),
-                 shinyjs::hidden(downloadButton("art_report", label="Download ART plots")),
-                 shinyjs::hidden(
-                   div(id="wait_art",
-                       p("Please wait - preparing ART report. This may take some time for countries with many districts")
-                   )
-                 ),
                  br(),
                  plotOutput("art_count_plot") %>% withSpinner()
                  ),
         tabPanel(title="ART sex ratio",
                  br(),
                  h4(textOutput("art_sex_plot_n")),
-                 shinyjs::hidden(downloadButton("art_report2", label="Download ART plots")),
-                 shinyjs::hidden(
-                   div(id="wait_art",
-                       p("Please wait - preparing ART report. This may take some time for countries with many districts")
-                   )
-                 ),
-                 br(),
                  plotOutput("art_sex_plot") %>% withSpinner()
         ),
         tabPanel(title="ART paediatric",
-                 br(),
-                 shinyjs::hidden(downloadButton("art_report3", label="Download ART plots")),
-                 shinyjs::hidden(
-                   div(id="wait_art",
-                       p("Please wait - preparing ART report. This may take some time for countries with many districts")
-                   )
-                 ),
                  br(),
                  plotOutput("art_paeds_plot") %>% withSpinner()
         ),
@@ -81,45 +61,17 @@ viewer <- function() {
                  ),
                  p("Year-on-year changes in the number of ANC clients greater than ", tags$strong("+/-", textOutput("anc_count_threshold", inline=TRUE), "%"), " will be highlighted in red. Warnings will not be generated for districts with fewer than 100 ANC clients."),
                  br(),
-                 shinyjs::hidden(downloadButton("anc_report", label="Download ANC plots")),
-                 shinyjs::hidden(
-                   div(id="wait_anc",
-                       p("Please wait - preparing ANC report. This may take some time for countries with many districts")
-                   )
-                 ),
-                 br(),
                  plotOutput("anc_count_plot") %>% withSpinner()
                  ),
         tabPanel(title="ANC prevalence",
-                 br(),
-                 shinyjs::hidden(downloadButton("anc_report2", label="Download ANC plots")),
-                 shinyjs::hidden(
-                   div(id="wait_anc",
-                       p("Please wait - preparing ANC report. This may take some time for countries with many districts")
-                   )
-                 ),
                  br(),
                  plotOutput("anc_prev_plot") %>% withSpinner()
         ),
         tabPanel(title="ANC known positive",
                  br(),
-                 shinyjs::hidden(downloadButton("anc_report3", label="Download ANC plots")),
-                 shinyjs::hidden(
-                   div(id="wait_anc",
-                       p("Please wait - preparing ANC report. This may take some time for countries with many districts")
-                   )
-                 ),
-                 br(),
                  plotOutput("anc_known_plot") %>% withSpinner()
         ),
         tabPanel(title="ANC ART coverage",
-                 br(),
-                 shinyjs::hidden(downloadButton("anc_report4", label="Download ANC plots")),
-                 shinyjs::hidden(
-                   div(id="wait_anc",
-                       p("Please wait - preparing ANC report. This may take some time for countries with many districts")
-                   )
-                 ),
                  br(),
                  plotOutput("anc_art_plot") %>% withSpinner()
         )

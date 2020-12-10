@@ -16,6 +16,9 @@ library(lubridate)
 library(shinycssloaders)
 library(shinyWidgets)
 library(tidyr)
+library(rmarkdown)
+library(knitr)
+library(tinytex)
 
 shinyOptions(shiny.sanitize.errors = FALSE)
 
@@ -24,6 +27,7 @@ source("src/validation_functions.R")
 
 source("src/server/introduction_server.R")
 source("src/server/viewer_server.R")
+source("src/server/download_server.R")
 
 source("src/ui/navigation.R")
 source("src/ui/introduction.R")

@@ -1,0 +1,63 @@
+---
+output: pdf_document
+geometry: margin=0.5in
+params:
+  version: 'NULL'
+  anc_count: 'NULL'
+  anc_prev: 'NULL'
+  anc_known: 'NULL'
+  anc_art: 'NULL'
+  threshold: 'NULL'
+  title: 'NULL'
+title: "`r params$title`"
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+These plots have been generated to assist in validating input data for Naomi by ShinyRob.
+
+The data were extracted from the AIDS Data Repository, and last modified at: `r params$version`
+
+For plots of numbers of ANC clients, period-on-period changes greater than `r params$threshold`% are highlighted in red.
+
+
+
+# Numbers of ANC clients
+
+```{r, echo=FALSE, results='asis', warning = FALSE, message = FALSE, fig.height=12, fig.width=9}
+for (i in 1:length(params$anc_count)) {
+  print(params$anc_count[[i]])
+  # print(foo[[i]])
+   cat("\n\n\\pagebreak\n")
+ }
+```
+
+# HIV prevalence among ANC attendees 
+
+```{r, echo=FALSE, results='asis', warning = FALSE, message = FALSE, fig.height=12, fig.width=9}
+for (i in 1:length(params$anc_count)) {
+  print(params$anc_prev[[i]])
+  cat("\n\n\\pagebreak\n")
+}
+```
+
+# Percentage of known positive already on ART 
+
+```{r, echo=FALSE, results='asis', warning = FALSE, message = FALSE, fig.height=12, fig.width=9}
+for (i in 1:length(params$anc_count)) {
+  print(params$anc_known[[i]])
+   cat("\n\n\\pagebreak\n")
+ }
+```
+
+# ART coverage prior to first ANC visit
+
+```{r, echo=FALSE, results='asis', warning = FALSE, message = FALSE, fig.height=12, fig.width=9}
+for (i in 1:length(params$anc_count)) {
+  print(params$anc_art[[i]])
+   cat("\n\n\\pagebreak\n")
+ }
+```

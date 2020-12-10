@@ -225,8 +225,8 @@ download_server <- function(input, output, session) {
       
       shinyjs::show("wait_art")
 
-      tempReport <- file.path(tempdir(), "art_report.Rmd")
-      file.copy("art_report.Rmd", tempReport, overwrite = TRUE)
+      # tempReport <- file.path(tempdir(), "art_report.Rmd")
+      # file.copy("art_report.Rmd", tempReport, overwrite = TRUE)
       
       params <- list(title = paste("2021", dat$areas_merge$area_name[dat$areas_merge$area_sort_order == 1], "HIV estimates: Naomi ART input data"),
                      version = last_modified$art(),
@@ -237,7 +237,12 @@ download_server <- function(input, output, session) {
                      threshold = input$art_count_threshold
       )
       
-      rmarkdown::render(tempReport, output_file = file,
+      # rmarkdown::render(tempReport, output_file = file,
+      #                   params = params,
+      #                   envir = new.env(parent = globalenv())
+      # )
+      
+      rmarkdown::render("art_report.Rmd", output_file = file,
                         params = params,
                         envir = new.env(parent = globalenv())
       )

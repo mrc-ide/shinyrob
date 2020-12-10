@@ -174,7 +174,8 @@ anc_validation <- function(dat, options, source_files, input, output, dhis = FAL
         anc_prevalence = anc_total_pos / anc_status,
         anc_art_among_known = anc_already_art / anc_known_pos,
         anc_art_coverage = anc_already_art / anc_total_pos
-      )
+      ) %>%
+      arrange(area_id, year)
     
     "<b>Valid</b>"
   }

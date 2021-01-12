@@ -1,6 +1,16 @@
 viewer_server <- function(input, output, session) {
   
-  plot_height <- reactive(250*ceiling(length(unique(dat$areas_merge$area_id))/5))
+  browser()
+  
+  plot_height <- reactive({
+    
+    if(exists("dat$art")) {
+      250*ceiling(length(unique(dat$art$area_id))/5)
+    } else {
+      250*ceiling(length(unique(dat$anc$area_id))/5)
+    }
+    
+  })
 
   output$art_count_threshold <- renderText({ input$art_count_threshold })
 

@@ -1,4 +1,5 @@
 get_unaids_geo_options <- function(res_unaids) {
+
   
   # res_unaids <- GET("https://adr.fjelltopp.org/api/3/action/package_search?q=type:inputs-unaids-estimates&hide_inaccessible_resources=true&rows=100", add_headers(Authorization = api_key))
   
@@ -16,6 +17,7 @@ get_unaids_geo_options <- function(res_unaids) {
         if(x$num_resources) {
           resources <- x$resources[[1]]
           resources <- resources %>%
+            select(resource_type, url) %>%
             # filter(resource_type  %in% c("naomi-anc", "naomi-art", "naomi-geographic"))
             filter(resource_type== "inputs-unaids-geographic")
           
@@ -49,6 +51,7 @@ get_unaids_art_options <- function(res_unaids) {
         if(x$num_resources) {
           resources <- x$resources[[1]]
           resources <- resources %>%
+            select(resource_type, url, last_modified) %>%
             # filter(resource_type  %in% c("naomi-anc", "naomi-art", "naomi-geographic"))
             filter(resource_type== "inputs-unaids-art")
 
@@ -81,6 +84,7 @@ get_unaids_anc_options <- function(res_unaids) {
         if(x$num_resources) {
           resources <- x$resources[[1]]
           resources <- resources %>%
+            select(resource_type, url, last_modified) %>%
             # filter(resource_type  %in% c("naomi-anc", "naomi-anc", "naomi-geographic"))
             filter(resource_type== "inputs-unaids-anc")
 
@@ -115,6 +119,7 @@ get_dhis_options <- function(input) {
         if(x$num_resources) {
           resources <- x$resources[[1]]
           resources %>%
+            select(name, url, last_modified) %>%
             filter(!str_detect(name, "Crosswalk"))
           
           data.frame(title=x$title, "organisation" = x$organization$title, name = resources$name, id = x$id, "source" = "dhis", "type" = "art", "area_name" = x$`geo-location`, "url" = resources$url, "last_modified" = resources$last_modified)
@@ -145,6 +150,7 @@ get_dhis_options <- function(input) {
         if(x$num_resources) {
           resources <- x$resources[[1]]
           resources %>%
+            select(name, url, last_modified) %>%
             filter(!str_detect(name, "Crosswalk"))
           
           data.frame(title=x$title, "organisation" = x$organization$title, name = resources$name, id = x$id, "source" = "dhis", "type" = "anc", "area_name" = x$`geo-location`, "url" = resources$url, "last_modified" = resources$last_modified)

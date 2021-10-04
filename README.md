@@ -1,7 +1,7 @@
 # naomi-viewer
 A data visualisation Shiny app for ANC and ART data for Naomi
 
-App can be found at <a href="shinyrob.unaids.org">this link</a>
+App can be found at [this link](https://shinyrob.unaids.org/)
 
 ANC and ART data are made available in the app through the use of an ADR access key through the AIDS Data Repository - you can find yours <a href="https://adr.unaids.org/me">here</a>
 

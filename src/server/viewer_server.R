@@ -1,8 +1,9 @@
 viewer_server <- function(input, output, session) {
-  
-  browser()
+
   
   plot_height <- reactive({
+    
+  browser()
     
     if(exists("dat$art")) {
       250*ceiling(length(unique(dat$art$area_id))/5)

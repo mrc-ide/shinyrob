@@ -42,6 +42,7 @@ geo_validation <- function(dat, options, source_files, input, output) {
 
 art_validation <- function(dat, options, source_files, input, output, dhis = FALSE) {
 
+  # browser()
 
   if(dhis) {
     art_choice <- options$full_art %>%
@@ -61,7 +62,7 @@ art_validation <- function(dat, options, source_files, input, output, dhis = FAL
   
   # art_check <- reactive({
     
-    # browser()
+    
     
     validate_art <- try(hintr:::do_validate_programme(source_files$art_file, source_files$areas_file))
     
@@ -107,6 +108,9 @@ art_validation <- function(dat, options, source_files, input, output, dhis = FAL
           art_prop_u15 = round(art_child/(art_adult+art_child),3),
           x_axis_variable = year
         )
+      
+      new_plot_height <- 250*ceiling(length(unique(dat$art$area_id))/5)
+      plot_height(new_plot_height)
       
       
      # art_text <- "<b>Valid</b><br>"
@@ -176,6 +180,9 @@ anc_validation <- function(dat, options, source_files, input, output, dhis = FAL
         anc_art_coverage = anc_already_art / anc_total_pos
       ) %>%
       arrange(area_id, year)
+    
+    # new_plot_height <- 250*ceiling(length(unique(dat$anc$area_id))/5)
+    plot_height(new_plot_height)
     
     "<b>Valid</b>"
   }

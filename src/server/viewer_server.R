@@ -1,17 +1,16 @@
 viewer_server <- function(input, output, session) {
 
-  
-  plot_height <- reactive({
-    
-  browser()
-    
-    if(exists("dat$art")) {
-      250*ceiling(length(unique(dat$art$area_id))/5)
-    } else {
-      250*ceiling(length(unique(dat$anc$area_id))/5)
-    }
-    
-  })
+  # plot_height <- reactive({
+  #   
+  #   if(exists("dat$art")) {
+  #     250*ceiling(length(unique(dat$art$area_id))/5)
+  #   } else {
+  #     250*ceiling(length(unique(dat$anc$area_id))/5)
+  #   }
+  # 
+  # })
+
+  # plot_height <- 200
 
   output$art_count_threshold <- renderText({ input$art_count_threshold })
 
@@ -155,13 +154,13 @@ viewer_server <- function(input, output, session) {
     )
 
     threshold <- input$anc_count_threshold/100
-      
+
     dat$anc %>%
       group_by(area_label) %>%
       mutate(year_next = lead(year), anc_clients_next = lead(anc_clients)) %>%
       select(area_label, year, anc_clients, year_next, anc_clients_next) %>%
       mutate(anc_diff = anc_clients_next/anc_clients,
-             colour_line = 
+             colour_line =
                ifelse(
                  (anc_diff >= (1 + threshold) | anc_diff <= (1 - threshold)) & anc_clients >= 100,
                  1, 0),

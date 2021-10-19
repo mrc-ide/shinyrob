@@ -1,10 +1,11 @@
 get_unaids_geo_options <- function(res_unaids) {
 
   
-  # res_unaids <- GET("https://adr.fjelltopp.org/api/3/action/package_search?q=type:inputs-unaids-estimates&hide_inaccessible_resources=true&rows=100", add_headers(Authorization = api_key))
+  # res_unaids <- GET("https://adr.fjelltopp.org/api/3/action/package_search?q=type:country-estimates-22&hide_inaccessible_resources=true&rows=100", add_headers(Authorization = api_key))
   
   # res_unaids <<- fromJSON(content(res_unaids, "text"))$result
   
+  # browser()
   
   if(length(res_unaids$results)) {
     
@@ -23,7 +24,7 @@ get_unaids_geo_options <- function(res_unaids) {
           
           
           if(nrow(resources) == 1) {
-            data.frame("title" = x$title, "organisation" = x$organization$title, "id" = x$id, "source" = "inputs-unaids-estimates", "type" = "geographic", "area_name" = x$`geo-location`, "url" = resources$url)
+            data.frame("title" = x$title, "organisation" = x$organization$title, "id" = x$id, "source" = "country-estimates-22", "type" = "geographic", "area_name" = x$`geo-location`, "url" = resources$url)
           }
         }
         
@@ -39,6 +40,8 @@ get_unaids_geo_options <- function(res_unaids) {
 }
 
 get_unaids_art_options <- function(res_unaids) {
+  
+  # browser()
 
   if(length(res_unaids$results)) {
 
@@ -57,7 +60,7 @@ get_unaids_art_options <- function(res_unaids) {
 
 
           if(nrow(resources) == 1) {
-            data.frame("title" = x$title, "organisation" = x$organization$title, "id" = x$id, "source" = "inputs-unaids-estimates", "type" = "art", "area_name" = x$`geo-location`, "url" = resources$url, "last_modified" = resources$last_modified)
+            data.frame("title" = x$title, "organisation" = x$organization$title, "id" = x$id, "source" = "country-estimates-22", "type" = "art", "area_name" = x$`geo-location`, "url" = resources$url, "last_modified" = resources$last_modified)
           }
         }
 
@@ -90,7 +93,7 @@ get_unaids_anc_options <- function(res_unaids) {
 
 
           if(nrow(resources) == 1) {
-            data.frame("title" = x$title, "organisation" = x$organization$title, "id" = x$id, "source" = "inputs-unaids-estimates", "type" = "anc", "area_name" = x$`geo-location`, "url" = resources$url, "last_modified" = resources$last_modified)
+            data.frame("title" = x$title, "organisation" = x$organization$title, "id" = x$id, "source" = "country-estimates-22", "type" = "anc", "area_name" = x$`geo-location`, "url" = resources$url, "last_modified" = resources$last_modified)
           }
         }
 
@@ -103,6 +106,8 @@ get_unaids_anc_options <- function(res_unaids) {
 }
 
 get_dhis_options <- function(input) {
+  
+  # browser()
   
   res_dhis_art <- GET("http://adr.unaids.org/api/3/action/package_search?hide_inaccessible_resources=true&fq=tags:dhis2+tags:art&rows=100", add_headers(Authorization = input$api_key))
   
@@ -185,7 +190,7 @@ update_options <- function(options, package_type, session) {
     
     if(package_type != "geo_package" & length(unique(options$source)) != 1) {
       titles <- sort(
-        factor(titles, levels = c(grep("Inputs UNAIDS Estimates 2021", titles, value = TRUE), grep("Inputs UNAIDS Estimates 2021", titles, value = TRUE, invert = TRUE)))
+        factor(titles, levels = c(grep("HIV Estimates 2022", titles, value = TRUE), grep("HIV Estimates 2022", titles, value = TRUE, invert = TRUE)))
       )
     }
     
@@ -209,6 +214,8 @@ update_options <- function(options, package_type, session) {
 }
 
 update_dhis_pull_options <- function(options, package_type, session) {
+  
+  # browser()
   
   if (nrow(options)) {
     enable(package_type)

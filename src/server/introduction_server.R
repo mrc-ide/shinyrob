@@ -4,6 +4,7 @@ introduction_server <- function(input, output, session) {
   options <- reactiveValues()
   dat <<- reactiveValues()
   source_files <- reactiveValues()
+  plot_height <<- reactiveVal(0)
   
   observeEvent(input$api_key,{
     toggleState("api_button", str_length(input$api_key) == 36)
@@ -17,7 +18,7 @@ introduction_server <- function(input, output, session) {
   
   observeEvent(input$api_button, {
     
-    res <- GET("https://adr.fjelltopp.org/api/3/action/package_search?q=type:inputs-unaids-estimates&hide_inaccessible_resources=true&rows=100", add_headers(Authorization = input$api_key))
+    res <- GET("https://adr.fjelltopp.org/api/3/action/package_search?q=type:country-estimates-22&hide_inaccessible_resources=true&rows=100", add_headers(Authorization = input$api_key))
     
     unaids_api_return$res_unaids <- fromJSON(content(res, "text"))$result
     
@@ -63,7 +64,10 @@ introduction_server <- function(input, output, session) {
     
     # browser()
     
-    dhis_options <- get_dhis_options(input)
+    dhis_options <- get_dhis_options(input) %>%
+      lapply(function(x) {
+        filter(x, str_detect(organisation, str_trim(split_title(input$geo_package)[2])))
+      })
     
     geo_choice <- options$unaids_geo %>%
       filter(title == split_title(input$geo_package)[1], organisation == split_title(input$geo_package)[2])
@@ -122,7 +126,7 @@ introduction_server <- function(input, output, session) {
     
     dat$art <- ""
     
-    if(filter(options$full_art, title == split_title(input$art_package)[1], organisation == split_title(input$art_package)[2])$source == "inputs-unaids-estimates") {
+    if(filter(options$full_art, title == split_title(input$art_package)[1], organisation == split_title(input$art_package)[2])$source == "country-estimates-22") {
       
       shinyjs::hide("art_dhis_package")
       
@@ -133,7 +137,7 @@ introduction_server <- function(input, output, session) {
     
     req(!input$art_package %in% c("No ADR access key entered", "No packages available", "Choose a package"))
     
-    if(filter(options$full_art, title == split_title(input$art_package)[1], organisation == split_title(input$art_package)[2])$source == "inputs-unaids-estimates") {
+    if(filter(options$full_art, title == split_title(input$art_package)[1], organisation == split_title(input$art_package)[2])$source == "country-estimates-22") {
       
       art_validation(dat, options, source_files, input, output)
       
@@ -159,7 +163,7 @@ introduction_server <- function(input, output, session) {
     
     dat$anc <- ""
     
-    if(filter(options$full_anc, title == split_title(input$anc_package)[1], organisation == split_title(input$anc_package)[2])$source == "inputs-unaids-estimates") {
+    if(filter(options$full_anc, title == split_title(input$anc_package)[1], organisation == split_title(input$anc_package)[2])$source == "country-estimates-22") {
       
       shinyjs::hide("anc_dhis_package")
       
@@ -171,7 +175,7 @@ introduction_server <- function(input, output, session) {
     
     req(!input$anc_package %in% c("No ADR access key entered", "No packages available", "Choose a package"))
     
-    if(filter(options$full_anc, title == split_title(input$anc_package)[1], organisation == split_title(input$anc_package)[2])$source == "inputs-unaids-estimates") {
+    if(filter(options$full_anc, title == split_title(input$anc_package)[1], organisation == split_title(input$anc_package)[2])$source == "country-estimates-22") {
       
       anc_validation(dat, options, source_files, input, output)
       
